@@ -10,7 +10,13 @@ namespace CardGameUI
     {
         static void Main(string[] args)
         {
-            PokerDeck deck = new PokerDeck();
+            BlackJackDeck deck = new BlackJackDeck();
+            var hand = deck.DealCards();
+
+            foreach (var card in hand)
+            {
+                Console.WriteLine($"{card.Value.ToString()} of {card.Suit.ToString()} ");
+            }
             
             Console.ReadLine();
         }
