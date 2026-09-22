@@ -23,6 +23,8 @@ namespace CardGameUI
 
         public void CreateDeck()
         {
+            fullDeck.Clear();
+
             for (int suit = 0; suit < 4; suit++)
             {
                 for (int val = 0; val < 13; val++)
@@ -34,8 +36,10 @@ namespace CardGameUI
 
         public virtual void ShuffleDeck()
         {
-
+            var rnd = new Random();
+            drawPile = fullDeck.OrderBy(x => rnd.Next()).ToList();
         }
+
 
         public abstract List<PlayingCard> DealCard();
 
