@@ -10,7 +10,8 @@ namespace CardGameUI
     {
         static void Main(string[] args)
         {
-
+            PokerDeck deck = new PokerDeck();
+            
             Console.ReadLine();
         }
     }
@@ -21,7 +22,7 @@ namespace CardGameUI
         protected List<PlayingCard> drawPile = new List<PlayingCard>();
         protected List<PlayingCard> discardPile = new List<PlayingCard>();
 
-        public void CreateDeck()
+        protected void CreateDeck()
         {
             fullDeck.Clear();
 
@@ -45,9 +46,44 @@ namespace CardGameUI
 
         public virtual PlayingCard RequestCard()
         {
-            throw new NotImplementedException();
+            PlayingCard output = drawPile.Take(1).First();
+            drawPile.Remove(output);
+            return output;
         }
 
+    }
+
+    public class PokerDeck : Deck
+    {
+        public PokerDeck()
+        {
+            CreateDeck();
+            ShuffleDeck();
+        }
+        public override List<PlayingCard> DealCard()
+        {
+            List<PlayingCard> output = new List<PlayingCard>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                output.Add(RequestCard());    
+            }
+
+            return output;
+        }
+
+        public List<PlayingCard> RequestCards(List<PlayingCard> cardsToDiscard)
+        {
+            List<PlayingCard> output = cardsToDiscard.ToList();
+
+            foreach (var card in cardsToDiscard)
+            {
+                output.Add(RequestCard());
+                discardPile.Add(card);
+            }
+
+            return output;
+        }
     }
 
     public class PlayingCard
